@@ -1,4 +1,4 @@
-# Coin Price Tracker
+# Coin Price Tracker - [Deploy](https://youhodler-coin-tracker.netlify.app/)
 
 This project is a simple Coin Price Tracker that allows users to monitor the prices of various cryptocurrencies.
 
