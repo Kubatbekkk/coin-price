@@ -2,22 +2,18 @@ import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useParams, Link } from "react-router-dom";
 import {
-  Box,
   Typography,
   Card,
   CardContent,
   CardActions,
   Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
+  Grid2 as Grid,
 } from "@mui/material";
 import coinStore from "../store";
 import { Loading, Error } from "../components";
+import { getCoinName } from "../utils";
+import { CoinItem } from "../components/CoinItem";
+import { RELATED_TO_CURRENCY } from "../constants";
 
 export const CoinDetails = observer(() => {
   const { ticker } = useParams<{ ticker: string }>();
@@ -48,75 +44,52 @@ export const CoinDetails = observer(() => {
 
   const [tickerSymbol, coin] = coinData;
 
+  const prefix = RELATED_TO_CURRENCY === "usd" ? "$" : undefined;
+
+  const details = [
+    { label: "Rate", value: coin.rate.toFixed(6), prefix },
+    { label: "Ask", value: coin.ask.toFixed(6), prefix },
+    { label: "Bid", value: coin.bid.toFixed(6), prefix },
+    { label: "Change (24h)", value: coin.diff24h, prefix },
+  ];
+
   return (
-    <Box
-      p={3}
-      sx={{
-        minHeight: "100vh",
-        backgroundColor: "#333",
-      }}
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <Card sx={{ backgroundColor: "transparent", width: "100%" }}>
-        <Typography
-          variant="h4"
-          gutterBottom
-          sx={{ color: "#9290C3", textAlign: "center" }}
-        >
-          {tickerSymbol.toUpperCase()}
-        </Typography>
-        <CardContent sx={{ backgroundColor: "#3E5879" }}>
-          <TableContainer
-            component={Paper}
-            sx={{ backgroundColor: "transparent", boxShadow: "none" }}
-          >
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell sx={{ color: "#9290C3" }} align="left">
-                    Rate
-                  </TableCell>
-                  <TableCell sx={{ color: "#9290C3" }} align="center">
-                    Ask
-                  </TableCell>
-                  <TableCell sx={{ color: "#9290C3" }} align="center">
-                    Bid
-                  </TableCell>
-                  <TableCell sx={{ color: "#9290C3" }} align="right">
-                    Change (24h)
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell sx={{ color: "#F6F4F0" }} align="left">
-                    {coin.rate.toFixed(6)}
-                  </TableCell>
-                  <TableCell sx={{ color: "#F6F4F0" }} align="center">
-                    {coin.ask.toFixed(6)}
-                  </TableCell>
-                  <TableCell sx={{ color: "#F6F4F0" }} align="center">
-                    {coin.bid.toFixed(6)}
-                  </TableCell>
-                  <TableCell sx={{ color: "#F6F4F0" }} align="right">
-                    {coin.diff24h}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
+    <Grid container>
+      <Card
+        sx={{
+          borderRadius: "5px",
+          backgroundColor: "transparent",
+        }}
+      >
+        <CardContent>
+          <Typography variant="h4" gutterBottom sx={{ color: "#fff" }}>
+            {getCoinName(ticker)} - {tickerSymbol.toUpperCase()} /{" "}
+            {RELATED_TO_CURRENCY.toUpperCase()}
+          </Typography>
+
+          <Grid container spacing={2} sx={{ mt: 3 }}>
+            {details.map(({ label, value, prefix }, index) => (
+              <CoinItem
+                key={index}
+                label={label}
+                value={value}
+                prefix={prefix}
+              />
+            ))}
+          </Grid>
         </CardContent>
-        <CardActions sx={{ justifyContent: "center" }}>
+
+        <CardActions>
           <Button
             component={Link}
+            fullWidth
             to="/"
             variant="contained"
             sx={{
-              backgroundColor: "#9290C3",
+              backgroundColor: "#3E5879",
               "&:hover": {
                 backgroundColor: "#7874A3",
+                color: "#fff",
               },
             }}
           >
@@ -124,6 +97,6 @@ export const CoinDetails = observer(() => {
           </Button>
         </CardActions>
       </Card>
-    </Box>
+    </Grid>
   );
 });
