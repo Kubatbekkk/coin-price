@@ -1,20 +1,25 @@
-import { observer } from "mobx-react-lite";
+import React, { Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Home, CoinDetails } from "./pages";
-import { Layout } from "./components";
+import { Loading } from "./components";
 import "./App.css";
 
-const App = observer(() => {
+const Home = React.lazy(() => import("./pages/Home"));
+const CoinDetails = React.lazy(() => import("./pages/CoinDetails"));
+const Layout = React.lazy(() => import("./components"));
+
+const App = () => {
   return (
     <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" index element={<Home />} />
-          <Route path="/:ticker" element={<CoinDetails />} />
-        </Routes>
-      </Layout>
+      <Suspense fallback={<Loading fullPage />}>
+        <Layout>
+          <Routes>
+            <Route path="/" index element={<Home />} />
+            <Route path="/:ticker" element={<CoinDetails />} />
+          </Routes>
+        </Layout>
+      </Suspense>
     </BrowserRouter>
   );
-});
+};
 
 export default App;

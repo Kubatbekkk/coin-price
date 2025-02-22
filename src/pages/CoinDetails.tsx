@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useParams, Link } from "react-router-dom";
 import {
@@ -15,20 +14,14 @@ import { getCoinName } from "../utils";
 import { CoinItem } from "../components/CoinItem";
 import { RELATED_TO_CURRENCY } from "../constants";
 
-export const CoinDetails = observer(() => {
+const CoinDetails = observer(() => {
   const { ticker } = useParams<{ ticker: string }>();
 
   if (!ticker) {
-    return null;
+    return;
   }
 
-  const coinData = coinStore.coins.find(([c]) => c === ticker);
-
-  useEffect(() => {
-    if (!coinData) {
-      coinStore.fetchCoins();
-    }
-  }, [ticker, coinData]);
+  const coinData = coinStore.getCoinDetails(ticker);
 
   if (coinStore.loading) {
     return <Loading />;
@@ -100,3 +93,5 @@ export const CoinDetails = observer(() => {
     </Grid>
   );
 });
+
+export default CoinDetails;

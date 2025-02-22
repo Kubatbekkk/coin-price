@@ -12,9 +12,15 @@ class CoinStore {
 
   constructor() {
     makeAutoObservable(this);
+
+    this.fetchCoins();
   }
 
   fetchCoins = async () => {
+    if (this.coins.length > 0 || this.loading) {
+      return;
+    }
+
     this.loading = true;
     this.error = null;
 
@@ -34,12 +40,18 @@ class CoinStore {
         this.coins = extractedCoins;
       });
     } catch {
-      this.error = "Failed to fetch rates.";
+      runInAction(() => {
+        this.error = "Failed to fetch rates.";
+      });
     } finally {
       runInAction(() => {
         this.loading = false;
       });
     }
+  };
+
+  getCoinDetails = (ticker: string) => {
+    return this.coins.find(([coinTicker]) => coinTicker === ticker);
   };
 }
 

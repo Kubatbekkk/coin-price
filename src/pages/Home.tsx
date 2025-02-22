@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 import {
@@ -13,13 +12,7 @@ import coinStore from "../store";
 import { getCoinName } from "../utils";
 import { Loading, Error, CoinHeader } from "../components";
 
-export const Home = observer(() => {
-  useEffect(() => {
-    if (!coinStore.coins.length) {
-      coinStore.fetchCoins();
-    }
-  }, []);
-
+const Home = observer(() => {
   if (coinStore.loading) {
     return <Loading />;
   }
@@ -100,3 +93,5 @@ export const Home = observer(() => {
     </Box>
   );
 });
+
+export default Home;
