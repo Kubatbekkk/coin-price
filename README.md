@@ -22,7 +22,7 @@ This project is a simple Coin Price Tracker that allows users to monitor the pri
 - [x] Use **MobX** for state management to demonstrate efficient and scalable state handling.
 - [x] Use **Zod** for runtime validation of the API response, ensuring both data integrity and type safety.
 - [x] Ensure a **consistent and user-friendly design**, with responsiveness and usability in mind.
-- [ ] Add **additional functionality**, such as sorting, filtering, or grouping, to enhance usability.
+- [x] Add **additional functionality**, such as sorting, filtering, or grouping, to enhance usability.
 
 ## Features
 

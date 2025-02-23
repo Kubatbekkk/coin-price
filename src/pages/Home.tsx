@@ -22,7 +22,14 @@ const Home = observer(() => {
   }
 
   return (
-    <Box>
+    <Box
+      sx={{
+        paddingTop: {
+          xs: 10,
+          md: 6,
+        },
+      }}
+    >
       <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
         <SortControl
           sortBy={coinStore.sortBy}

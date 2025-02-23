@@ -47,7 +47,15 @@ const CoinDetails = observer(() => {
   ];
 
   return (
-    <Grid container>
+    <Grid
+      container
+      sx={{
+        paddingTop: {
+          xs: 10,
+          md: 6,
+        },
+      }}
+    >
       <Card
         sx={{
           borderRadius: "5px",

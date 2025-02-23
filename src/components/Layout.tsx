@@ -1,4 +1,4 @@
-import { Typography, Box } from "@mui/material";
+import { Typography } from "@mui/material";
 import { ReactNode } from "react";
 
 interface LayoutProps {
@@ -7,7 +7,7 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   return (
-    <Box flexDirection="column">
+    <>
       <Typography
         variant="h5"
         component="h1"
@@ -26,18 +26,7 @@ export const Layout = ({ children }: LayoutProps) => {
       >
         YouHodler CC Rates
       </Typography>
-
-      <Box
-        sx={{
-          flexGrow: 1,
-          paddingTop: {
-            md: 5,
-            xs: 10,
-          },
-        }}
-      >
-        {children}
-      </Box>
-    </Box>
+      {children}
+    </>
   );
 };
