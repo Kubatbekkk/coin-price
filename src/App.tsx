@@ -1,25 +1,36 @@
-import React, { Suspense } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Loading } from "./components";
+import { Suspense, lazy } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Layout, Loading } from "./components";
 import "./App.css";
 
-const Home = React.lazy(() => import("./pages/Home"));
-const CoinDetails = React.lazy(() => import("./pages/CoinDetails"));
-const Layout = React.lazy(() => import("./components"));
+const Home = lazy(() => import("./pages/Home"));
+const CoinDetails = lazy(() => import("./pages/CoinDetails"));
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: (
+      <Layout>
+        <Suspense fallback={<Loading fullPage />}>
+          <Home />
+        </Suspense>
+      </Layout>
+    ),
+  },
+  {
+    path: "/:ticker",
+    element: (
+      <Layout>
+        <Suspense fallback={<Loading fullPage />}>
+          <CoinDetails />
+        </Suspense>
+      </Layout>
+    ),
+  },
+]);
 
 const App = () => {
-  return (
-    <BrowserRouter>
-      <Suspense fallback={<Loading fullPage />}>
-        <Layout>
-          <Routes>
-            <Route path="/" index element={<Home />} />
-            <Route path="/:ticker" element={<CoinDetails />} />
-          </Routes>
-        </Layout>
-      </Suspense>
-    </BrowserRouter>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

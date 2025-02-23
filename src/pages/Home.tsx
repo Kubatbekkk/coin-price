@@ -10,11 +10,11 @@ import {
 } from "@mui/material";
 import coinStore from "../store";
 import { getCoinName } from "../utils";
-import { Loading, Error, CoinHeader } from "../components";
+import { Loading, Error, CoinHeader, SortControl } from "../components";
 
 const Home = observer(() => {
   if (coinStore.loading) {
-    return <Loading />;
+    return <Loading fullPage />;
   }
 
   if (coinStore.error) {
@@ -22,20 +22,18 @@ const Home = observer(() => {
   }
 
   return (
-    <Box
-      p={3}
-      sx={{
-        minHeight: "100vh",
-        p: {
-          sm: 0,
-          md: 3,
-        },
-      }}
-    >
+    <Box>
+      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <SortControl
+          sortBy={coinStore.sortBy}
+          onSortChange={(value) => coinStore.setSortBy(value)}
+        />
+      </Box>
+
       <Grid container spacing={1}>
         <CoinHeader />
 
-        {coinStore.coins.map(([ticker, coin], index) => (
+        {coinStore.sortedCoins.map(([ticker, coin], index) => (
           <Grid size={12} key={ticker}>
             <Card sx={{ backgroundColor: "transparent" }}>
               <MuiLink

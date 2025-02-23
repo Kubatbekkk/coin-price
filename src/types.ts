@@ -15,3 +15,5 @@ export const ApiResponseSchema = z.record(
 type Coin = z.infer<typeof CoinSchema>;
 
 export type Coins = [string, Coin][];
+
+export type SortBy = "name-az" | "name-za" | "rate-asc" | "rate-desc" | null;

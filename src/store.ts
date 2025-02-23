@@ -1,7 +1,8 @@
+import { makeAutoObservable, runInAction, computed } from "mobx";
 import { RELATED_TO_CURRENCY } from "./constants";
-import { makeAutoObservable, runInAction } from "mobx";
-import { type Coins, ApiResponseSchema } from "./types";
+import { type Coins, type SortBy, ApiResponseSchema } from "./types";
 import axios from "axios";
+import { getCoinName } from "./utils";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -9,9 +10,10 @@ class CoinStore {
   coins: Coins = [];
   loading: boolean = false;
   error: string | null = null;
+  sortBy: SortBy = null;
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, { sortedCoins: computed });
 
     this.fetchCoins();
   }
@@ -49,6 +51,38 @@ class CoinStore {
       });
     }
   };
+
+  setSortBy = (criteria: SortBy) => {
+    this.sortBy = criteria;
+  };
+
+  get sortedCoins() {
+    if (!this.sortBy) {
+      return this.coins;
+    }
+
+    return [...this.coins].sort((a, b) => {
+      const [tickerA, coinA] = a;
+      const [tickerB, coinB] = b;
+
+      switch (this.sortBy) {
+        case "name-az":
+          return getCoinName(tickerA).localeCompare(getCoinName(tickerB));
+        case "name-za":
+          return getCoinName(tickerB).localeCompare(getCoinName(tickerA));
+        case "rate-asc":
+          return coinA.rate - coinB.rate;
+        case "rate-desc":
+          return coinB.rate - coinA.rate;
+        case null:
+          return 0;
+        default: {
+          const _exhaustiveCheck: never = this.sortBy;
+          throw new Error(`Unhandled sortBy value: ${_exhaustiveCheck}`);
+        }
+      }
+    });
+  }
 
   getCoinDetails = (ticker: string) => {
     return this.coins.find(([coinTicker]) => coinTicker === ticker);

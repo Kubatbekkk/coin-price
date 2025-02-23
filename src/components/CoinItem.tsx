@@ -8,7 +8,7 @@ interface DetailItemProps {
 
 export const CoinItem = ({ label, value }: DetailItemProps) => {
   return (
-    <Grid size={{ md: 6 }}>
+    <Grid size={{ md: 6, xs: 12 }}>
       <Paper
         sx={{
           padding: 2,

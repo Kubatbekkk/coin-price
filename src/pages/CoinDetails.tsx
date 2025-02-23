@@ -24,7 +24,7 @@ const CoinDetails = observer(() => {
   const coinData = coinStore.getCoinDetails(ticker);
 
   if (coinStore.loading) {
-    return <Loading />;
+    return <Loading fullPage />;
   }
 
   if (coinStore.error) {
@@ -55,7 +55,7 @@ const CoinDetails = observer(() => {
         }}
       >
         <CardContent>
-          <Typography variant="h4" gutterBottom sx={{ color: "#fff" }}>
+          <Typography variant="h6" gutterBottom sx={{ color: "#fff" }}>
             {getCoinName(ticker)} - {tickerSymbol.toUpperCase()} /{" "}
             {RELATED_TO_CURRENCY.toUpperCase()}
           </Typography>
