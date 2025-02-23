@@ -51,7 +51,6 @@ const CoinDetails = observer(() => {
       container
       sx={{
         paddingTop: {
-          xs: 10,
           md: 6,
         },
       }}

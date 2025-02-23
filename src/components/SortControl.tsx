@@ -25,6 +25,12 @@ export const SortControl = ({ sortBy, onSortChange }: SortControlProps) => {
         value={sortBy || ""}
         onChange={(e) => onSortChange(e.target.value as SortBy)}
         label="Sort By"
+        sx={{
+          width: {
+            md: "200px",
+            xs: "100%",
+          },
+        }}
       >
         <MenuItem value="">None</MenuItem>
         <MenuItem value="name-az">Name (A-Z)</MenuItem>
